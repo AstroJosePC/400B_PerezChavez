@@ -8,7 +8,7 @@ def Read(filename):
     # Read time snapshot, split to isolate value, and attach unit
     line1 = file.readline()
     label, value = line1.split()
-    time = float(value) * 10.0 * u.Myr
+    time = float(value) * u.Myr
     
     # Read number of particles, split to isolate value
     line2 = file.readline()
