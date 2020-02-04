@@ -9,7 +9,7 @@ def ParticleInfo(filename, ptype, pnum):
     
     :param filename: file path to data file
     :param ptype: particle type; halo (1), disk (2), or bulge (3) 
-    :param pnum: particle number
+    :param pnum: particle number; index starts at 1.
     :return: distance, velocity, mass
     """
     # If ptype is string, then reassign according to indexing rule
@@ -25,7 +25,7 @@ def ParticleInfo(filename, ptype, pnum):
     
     # Read data file, and index corresponding particle number/type
     time, total, data = Read(filename)
-    particle = data[data['type'] == ptype][pnum]
+    particle = data[data['type'] == ptype][pnum-1]
     
     # Calculate the rounded distance/velocity vector magnitudes, and get mass (w/ Msun units)
     distance = np.round(np.sqrt(particle[2]**2 + particle[3]**2 + particle[4]**2), 3)
