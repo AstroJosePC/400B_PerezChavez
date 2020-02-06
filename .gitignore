@@ -1,3 +1,6 @@
+# Added by me, ignore sample data for testing purposes
+/SampleData
+
 # Editors
 .vscode/
 .idea/
