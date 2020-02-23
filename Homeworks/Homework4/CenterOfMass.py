@@ -75,7 +75,6 @@ class CenterOfMass:
         # compute the magnitude of the COM position vector.
         # write your own code below
         RCOM = np.sqrt( XCOM**2 + YCOM**2 + ZCOM**2 )
-        print(f'First RCOM guess\t =', RCOM)
 
         # iterative process to determine the center of mass                                                            
 
@@ -103,12 +102,6 @@ class CenterOfMass:
         while (CHANGE > delta):
             # select all particles within the reduced radius (starting from original x,y,z, m)
             # write your own code below (hints, use np.where)
-            print(f'RMAX\t= {RMAX}')
-            
-            if not np.any(RNEW < RMAX):
-                print(f'\nThere are no particles within RMAX {RMAX:.3f}')
-                print(f'RNEW: Min={RNEW.min():.2f}\tMax={RNEW.max():.2f}\tRMEAN={RNEW.mean():.2f}')
-                raise ValueError()
             
             index2 = np.where( RNEW < RMAX)
             x2 = self.x[index2]
@@ -124,20 +117,14 @@ class CenterOfMass:
             # compute the new 3D COM position
             # write your own code below
             RCOM2 = np.sqrt( XCOM2**2 + YCOM2**2 + ZCOM2**2 )
-            print('iterative RCOM\t =', RCOM2)
             # determine the difference between the previous center of mass position                                    
             # and the new one.
             CHANGE = np.abs(RCOM - RCOM2)
-            # print(XCOM2, YCOM2, ZCOM2, RCOM2)
             # uncomment the following line if you wnat to check this                                                                                               
-            print ("CHANGE = ", CHANGE)                                                                                     
-
             # Before loop continues, reset : RMAX, particle separations and COM                                        
 
             # reduce the volume by a factor of 2 again                                                                 
             RMAX = RMAX/2.0
-            # check this.                                                                                              
-            print ("maxR", RMAX)                                                                                      
 
             # Change the frame of reference to the newly computed COM.                                                 
             # subtract the new COM
@@ -164,7 +151,6 @@ class CenterOfMass:
         # set the correct units usint astropy and round all values
         # and then return the COM positon vector
         # write your own code below
-        # return [XCOM, YCOM, ZCOM]
         return np.round(COMP, 2) * u.kpc
         
 
@@ -186,13 +172,7 @@ class CenterOfMass:
         # determine the index for those particles within the max radius
         # write your own code below
         indexV = RV < RVMAX
-        
-        if not np.any(indexV):
-            print(f'\nThere are no particles within RVMAX {RVMAX:.3f}')
-            print(f'RV: Min={RV.min():.2f}\tMax={RV.max():.2f}\tRMEAN={RV.mean():.2f}')
-            raise ValueError()
-
-        
+      
         # determine the velocity and mass of those particles within the mas radius
         # write your own code below
         vxnew = self.vx[indexV]
