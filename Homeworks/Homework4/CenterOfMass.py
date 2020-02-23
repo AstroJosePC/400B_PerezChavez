@@ -7,11 +7,16 @@
 # We also strongly encourage you to try to develop your own method to solve the homework.
 ###############################################################################
 
-# import modules
+# Add path to other HW folders
+# Incites modular design / No need to copy ReadFile into Homework3 folder
+import sys
+sys.path.append("../")
+
+# Import modules
 import numpy as np
 import astropy.units as u
-from ReadFile import Read
-
+import astropy.table as tbl
+from Homework2.ReadFile import Read
 
 class CenterOfMass:
 # Class to define COM position and velocity properties of a given galaxy 
@@ -209,20 +214,18 @@ class CenterOfMass:
         return COMV
     
 
+if __name__ == '__main__':
+    # ANSWERING QUESTIONS
+    #######################
+    # Create  a Center of mass object for the MW, M31 and M33
+    # below is an example of using the class for MW
+    MWCOM = CenterOfMass("MW_000.txt", 2)
 
-# ANSWERING QUESTIONS
-#######################
+    # below gives you an example of calling the class's functions
+    # MW:   store the position and velocity COM 
+    MW_COMP = MWCOM.COM_P(0.1)
+    MW_COMV = MWCOM.COM_V(MW_COMP[0],MW_COMP[1],MW_COMP[2])
 
-
-# Create  a Center of mass object for the MW, M31 and M33
-# below is an example of using the class for MW
-MWCOM = CenterOfMass("MW_000.txt", 2)
-
-# below gives you an example of calling the class's functions
-# MW:   store the position and velocity COM 
-MW_COMP = MWCOM.COM_P(0.1)
-MW_COMV = MWCOM.COM_V(MW_COMP[0],MW_COMP[1],MW_COMP[2])
-
-# now write your own code to answer questions
+    # now write your own code to answer questions
 
 
