@@ -1,0 +1,404 @@
+
+%% Beginning of file 'sample63.tex'
+%%
+%% Modified 2019 June
+%%
+%% This is a sample manuscript marked up using the
+%% AASTeX v6.3 LaTeX 2e macros.
+%%
+%% AASTeX is now based on Alexey Vikhlinin's emulateapj.cls 
+%% (Copyright 2000-2015).  See the classfile for details.
+
+%% AASTeX requires revtex4-1.cls (http://publish.aps.org/revtex4/) and
+%% other external packages (latexsym, graphicx, amssymb, longtable, and epsf).
+%% All of these external packages should already be present in the modern TeX 
+%% distributions.  If not they can also be obtained at www.ctan.org.
+
+%% The first piece of markup in an AASTeX v6.x document is the \documentclass
+%% command. LaTeX will ignore any data that comes before this command. The 
+%% documentclass can take an optional argument to modify the output style.
+%% The command below calls the preprint style which will produce a tightly 
+%% typeset, one-column, single-spaced document.  It is the default and thus
+%% does not need to be explicitly stated.
+%%
+%%
+%% using aastex version 6.3
+\documentclass{aastex63}
+
+%% The default is a single spaced, 10 point font, single spaced article.
+%% There are 5 other style options available via an optional argument. They
+%% can be invoked like this:
+%%
+%% \documentclass[arguments]{aastex63}
+%% 
+%% where the layout options are:
+%%
+%%  twocolumn   : two text columns, 10 point font, single spaced article.
+%%                This is the most compact and represent the final published
+%%                derived PDF copy of the accepted manuscript from the publisher
+%%  manuscript  : one text column, 12 point font, double spaced article.
+%%  preprint    : one text column, 12 point font, single spaced article.  
+%%  preprint2   : two text columns, 12 point font, single spaced article.
+%%  modern      : a stylish, single text column, 12 point font, article with
+%% 		  wider left and right margins. This uses the Daniel
+%% 		  Foreman-Mackey and David Hogg design.
+%%  RNAAS       : Preferred style for Research Notes which are by design 
+%%                lacking an abstract and brief. DO NOT use \begin{abstract}
+%%                and \end{abstract} with this style.
+%%
+%% Note that you can submit to the AAS Journals in any of these 6 styles.
+%%
+%% There are other optional arguments one can invoke to allow other stylistic
+%% actions. The available options are:
+%%
+%%   astrosymb    : Loads Astrosymb font and define \astrocommands. 
+%%   tighten      : Makes baselineskip slightly smaller, only works with 
+%%                  the twocolumn substyle.
+%%   times        : uses times font instead of the default
+%%   linenumbers  : turn on lineno package.
+%%   trackchanges : required to see the revision mark up and print its output
+%%   longauthor   : Do not use the more compressed footnote style (default) for 
+%%                  the author/collaboration/affiliations. Instead print all
+%%                  affiliation information after each name. Creates a much 
+%%                  longer author list but may be desirable for short 
+%%                  author papers.
+%% twocolappendix : make 2 column appendix.
+%%   anonymous    : Do not show the authors, affiliations and acknowledgments 
+%%                  for dual anonymous review.
+%%
+%% these can be used in any combination, e.g.
+%%
+%% \documentclass[twocolumn,linenumbers,trackchanges]{aastex63}
+%%
+%% AASTeX v6.* now includes \hyperref support. While we have built in specific
+%% defaults into the classfile you can manually override them with the
+%% \hypersetup command. For example,
+%%
+%% \hypersetup{linkcolor=red,citecolor=green,filecolor=cyan,urlcolor=magenta}
+%%
+%% will change the color of the internal links to red, the links to the
+%% bibliography to green, the file links to cyan, and the external links to
+%% magenta. Additional information on \hyperref options can be found here:
+%% https://www.tug.org/applications/hyperref/manual.html#x1-40003
+%%
+%% Note that in v6.3 "bookmarks" has been changed to "true" in hyperref
+%% to improve the accessibility of the compiled pdf file.
+%%
+%% If you want to create your own macros, you can do so
+%% using \newcommand. Your macros should appear before
+%% the \begin{document} command.
+%%
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand\aastex{AAS\TeX}
+\newcommand\latex{La\TeX}
+\usepackage{listings}
+
+%% Reintroduced the \received and \accepted commands from AASTeX v5.2
+%% \received{June 1, 2019}
+%% \revised{January 10, 2019}
+%% \accepted{\today}
+%% Command to document which AAS Journal the manuscript was submitted to.
+%% Adds "Submitted to " the argument.
+%% \submitjournal{AJ}
+
+%% For manuscript that include authors in collaborations, AASTeX v6.3
+%% builds on the \collaboration command to allow greater freedom to 
+%% keep the traditional author+affiliation information but only show
+%% subsets. The \collaboration command now must appear AFTER the group
+%% of authors in the collaboration and it takes TWO arguments. The last
+%% is still the collaboration identifier. The text given in this
+%% argument is what will be shown in the manuscript. The first argument
+%% is the number of author above the \collaboration command to show with
+%% the collaboration text. If there are authors that are not part of any
+%% collaboration the \nocollaboration command is used. This command takes
+%% one argument which is also the number of authors above to show. A
+%% dashed line is shown to indicate no collaboration. This example manuscript
+%% shows how these commands work to display specific set of authors 
+%% on the front page.
+%%
+%% For manuscript without any need to use \collaboration the 
+%% \AuthorCollaborationLimit command from v6.2 can still be used to 
+%% show a subset of authors.
+%
+%\AuthorCollaborationLimit=2
+%
+%% will only show Schwarz & Muench on the front page of the manuscript
+%% (assuming the \collaboration and \nocollaboration commands are
+%% commented out).
+%%
+%% Note that all of the author will be shown in the published article.
+%% This feature is meant to be used prior to acceptance to make the
+%% front end of a long author article more manageable. Please do not use
+%% this functionality for manuscripts with less than 20 authors. Conversely,
+%% please do use this when the number of authors exceeds 40.
+%%
+%% Use \allauthors at the manuscript end to show the full author list.
+%% This command should only be used with \AuthorCollaborationLimit is used.
+
+%% The following command can be used to set the latex table counters.  It
+%% is needed in this document because it uses a mix of latex tabular and
+%% AASTeX deluxetables.  In general it should not be needed.
+%\setcounter{table}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% The following section outlines numerous optional output that
+%% can be displayed in the front matter or as running meta-data.
+%%
+%% If you wish, you may supply running head information, although
+%% this information may be modified by the editorial offices.
+\shorttitle{ASTR400B Project}
+\shortauthors{José Pérez}
+%%
+%% You can add a light gray and diagonal water-mark to the first page 
+%% with this command:
+%% \watermark{text}
+%% where "text", e.g. DRAFT, is the text to appear.  If the text is 
+%% long you can control the water-mark size with:
+%% \setwatermarkfontsize{dimension}
+%% where dimension is any recognized LaTeX dimension, e.g. pt, in, etc.
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{./}{figures/}}
+%% This is the end of the preamble.  Indicate the beginning of the
+%% manuscript itself with \begin{document}.
+
+\begin{document}
+
+\title{Tidal Debris from M33: Stellar Streams of M33}
+
+%% LaTeX will automatically break titles if they run longer than
+%% one line. However, you may use \\ to force a line break if
+%% you desire. In v6.3 you can include a footnote in the title.
+
+%% A significant change from earlier AASTEX versions is in the structure for 
+%% calling author and affiliations. The change was necessary to implement 
+%% auto-indexing of affiliations which prior was a manual process that could 
+%% easily be tedious in large author manuscripts.
+%%
+%% The \author command is the same as before except it now takes an optional
+%% argument which is the 16 digit ORCID. The syntax is:
+%% \author[xxxx-xxxx-xxxx-xxxx]{Author Name}
+%%
+%% This will hyperlink the author name to the author's ORCID page. Note that
+%% during compilation, LaTeX will do some limited checking of the format of
+%% the ID to make sure it is valid. If the "orcid-ID.png" image file is 
+%% present or in the LaTeX pathway, the OrcID icon will appear next to
+%% the authors name.
+%%
+%% Use \affiliation for affiliation information. The old \affil is now aliased
+%% to \affiliation. AASTeX v6.3 will automatically index these in the header.
+%% When a duplicate is found its index will be the same as its previous entry.
+%%
+%% Note that \altaffilmark and \altaffiltext have been removed and thus 
+%% can not be used to document secondary affiliations. If they are used latex
+%% will issue a specific error message and quit. Please use multiple 
+%% \affiliation calls for to document more than one affiliation.
+%%
+%% The new \altaffiliation can be used to indicate some secondary information
+%% such as fellowships. This command produces a non-numeric footnote that is
+%% set away from the numeric \affiliation footnotes.  NOTE that if an
+%% \altaffiliation command is used it must come BEFORE the \affiliation call,
+%% right after the \author command, in order to place the footnotes in
+%% the proper location.
+%%
+%% Use \email to set provide email addresses. Each \email will appear on its
+%% own line so you can put multiple email address in one \email call. A new
+%% \correspondingauthor command is available in V6.3 to identify the
+%% corresponding author of the manuscript. It is the author's responsibility
+%% to make sure this name is also in the author list.
+%%
+%% While authors can be grouped inside the same \author and \affiliation
+%% commands it is better to have a single author for each. This allows for
+%% one to exploit all the new benefits and should make book-keeping easier.
+%%
+%% If done correctly the peer review system will be able to
+%% automatically put the author and affiliation information from the manuscript
+%% and save the corresponding author the trouble of entering it by hand.
+
+\author{José Pérez Chávez}
+\affiliation{University of Arizona}
+
+%% Note that the \and command from previous versions of AASTeX is now
+%% depreciated in this version as it is no longer necessary. AASTeX 
+%% automatically takes care of all commas and "and"s between authors names.
+
+%% AASTeX 6.3 has the new \collaboration and \nocollaboration commands to
+%% provide the collaboration status of a group of authors. These commands 
+%% can be used either before or after the list of corresponding authors. The
+%% argument for \collaboration is the collaboration identifier. Authors are
+%% encouraged to surround collaboration identifiers with ()s. The 
+%% \nocollaboration command takes no argument and exists to indicate that
+%% the nearby authors are not part of surrounding collaborations.
+
+%% From the front matter, we move on to the body of the paper.
+%% Sections are demarcated by \section and \subsection, respectively.
+%% Observe the use of the LaTeX \label
+%% command after the \subsection to give a symbolic KEY to the
+%% subsection for cross-referencing in a \ref command.
+%% You can use LaTeX's \ref and \label commands to keep track of
+%% cross-references to sections, equations, tables, and figures.
+%% That way, if you change the order of any elements, LaTeX will
+%% automatically renumber them.
+%%
+%% We recommend that authors also use the natbib \citep
+%% and \citet commands to identify citations.  The citations are
+%% tied to the reference list via symbolic KEYs. The KEY corresponds
+%% to the KEY in the \bibitem in the reference list below. 
+
+\section{Introduction} \label{sec:intro}
+
+Our Milky Way Galaxy is in a merging course with its neighbor, 
+the Andromeda galaxy (M31). These two galaxies, and their respective
+satellite galaxies form our Local Group. The term Local Group simply refers
+to the fact that our galaxies gravitational forces are significant enough to
+affect their evolution, and can't be ignored. With the new M31 proper motion
+measurement we can predict the timing of the collision between the MW and
+M31: $3.87^{+0.42}_{-0.32}$ Gyr \citep{2012ApJ...753....9V}. 
+
+The merging process will cause dynamical structures within the galaxy that
+tidally evolve over millions of years. The evolution of these 
+structures can help us better understand galaxy mass distributions and the 
+shapes of the black matter halos. Mergers simulations 
+allow us to explore the evolution of said structures and study them. 
+\citet{2007MNRAS.381..987C} investigates satellite galaxy evolution by 
+performing high-resolution N-body, and find an intrinsic mass dependence
+that provides additional leverage on both halo and progenitor satellite 
+properties. 
+
+In \citep{2012ApJ...753....9V}, scientist presented an entirely deterministic
+Local Group evolution dataset as a result of recent Local Group phase-space 
+measurements, and improvements thereof. The kinematic information of our own 
+Local Group is essential to reproducing accurate evolution models of galaxies.
+This is not the case for farther galaxies since extracting such data is much 
+harder to get. While Milky way like N-body simulations are effective at telling
+us about galaxy evolution, the realistic initial state of our Local Group can
+probe important information that we are missing.
+
+In this paper we will focus on the M33 streams that survive the MW-M31 merger.
+Tidal streams act as past constraints on the progenitor orbits and allow us to
+probe the parent galaxy's gravity, and hence its dark matter halo. In Andromeda, 
+we know of roughly 4 stellar streams such as the Giant stellar 
+stream, Andromeda NE, Tidal Stream Northwest, and Tidal Stream Southwest 
+streams \citep{2010AAS...21535401G, 2006AAS...208.4803G}. \citet{2007MNRAS.381..987C, 2017MNRAS.464.2882A} have explored the distribution of tidal streams to assess galaxy morphology, and phase-space distribution.
+
+\section{Proposal} \label{sec:proposal}
+
+For my project I want to track M33 streams distribution that will be located 
+in the MW-M31 merged halo. At the same time I want to assess how well the streams 
+trace the orbital path of M33. I want to produce a qualitative timeline for the satellite galaxy disruption and stellar stream creation. Additionally, and potentially optionally, I want to assess the detection of dark matter subhalos.
+
+\subsection{Tracking Streams\label{subsec:streams}}
+
+A technique I can implement to track the stellar streams is to use the Jacobi
+radius, and label those stars outside of it. Jacobi (or tidal) radius is the 
+distance from the center of the satellite galaxy at which the external gravitation 
+of the host galaxy has more influence over the stars in the satellite than does the
+satellite itself. The initial M33 stars are already labeled, so I need to add 
+a second layer to my pipeline in order to track those outside the tidal radius.
+The stellar streams orientation is also important, so once each stream is labelled separately, I can calculate the morphology using basic techniques such as moments.
+
+Another interesting feature of streams is that they can potentially be used to 
+indirectly detect dark matter clumps. When a dark matter subhalo clump grazes a 
+stellar stream, it could disrupt the stream and produce gaps as indicated in 
+\citet{2018AAS...23121203P}\footnote{It seems like there is no source for this 
+paper, but I found a video of her presentation:\url{https://youtu.be/HJJsIHrBBLQ}}.
+However, as they discuss, I must track the effect of the galactic centers (MW/M31),
+as it also generates underdensities in streams. I think I should keep this part of 
+the project as optional since it may require the most time. I will need to spend
+some time in finding an optimal way to find the underdensities in the halo to
+find the subhalos. While \citet{2018AAS...23121203P} explores this process by
+inserting artificial streams, I am interested in finding the impact from 
+new realistic incoming streams from M33.
+
+\subsection{Visualization\label{subsec:viz}}
+
+I will use Blender software to produce a custom visualization of the streams.
+Blender is the free and open source 3D creation suite. There are other similar
+projects, but the advantage of using Blender is that it is open source, and as
+such there is a lot of documentation. It provides a Python interface for all 
+of its features. This allows me to import the Python code we have generated
+in class and for assignments, create custom animations, run everything in 
+a single pipeline.
+
+The \citet{2012ApJ...753....9V} MW-M31-M33 merger system dataset has 800 
+snapshots that will produce a 24 frame rate animation of approximately 100 
+seconds assuming I can introduce three interpolated frames between each 
+snapshot. Blender has a Python interface capable of performing said animation.
+
+As of now, I have a working code that will render one frame at a time.
+The results are shown in Figure \ref{fig:snapshots}. While this work is 
+awesome, I need to come up with a way to automate the procedure such that I 
+don't have to process each snapshot manually. Here is an example of two 
+frames. The Blender Cycles engine is capable of rendering all ~42,500 
+particles from the low resolution dataset with no problem. 
+
+%% The "ht!" tells LaTeX to put the figure "here" first, at the "top" next
+%% and to override the normal way of calculating a float position
+\begin{figure}[h!]
+\plottwo{render0.pdf}{render1.pdf}
+\caption{The lefthand picture shows the initial  snapshot of the Milky Way, 
+while the righthand picture shows the 50th snapshot of the simulation.
+Both pictures were taken from a Z-axis perspective from the initial 
+arbitrary reference frame.
+\label{fig:snapshots}}
+\end{figure}
+
+In order to proceed with this method of visualization I need to learn how to 
+move the scene camera, the one that produces the images above, using the 
+Python interface to follow the galaxy, or certain components of it.
+Blender also has a few features that should allow me to apply different colors
+to different particles; which will be useful for visualizing the streams. Another
+improvement is to attempt working with the full resolution dataset to improve
+my results accuracy, and push the limits of this method.
+
+\subsection{Expected Results\label{subsec:results}}
+
+For my results I should expect, as \citet{2017MNRAS.464.2882A, 2007MNRAS.381..987C}
+found, M33 being a relatively massive satellite galaxy won't produce efficient 
+clues to its orbital path. This is the same for the tail orientation; it won't be a
+great indicator for path. However, M33's stellar debris is expected to fall deep 
+into the potential, which means any incoming subhalo remnant should dissipate fast 
+\citep{2017MNRAS.464.2882A}. As for the stream hole-punching subhalo, I should expect the galactic centers to have a greater impact in stellar stream underdensities than any subhalo clump, especially for non-retrograde streams, and 
+
+% \begin{figure*}
+% \gridline{\fig{V2491_Cyg.pdf}{0.3\textwidth}{(a)}
+%           \fig{HV_Cet.pdf}{0.3\textwidth}{(b)}
+%           \fig{LMC_2009.pdf}{0.3\textwidth}{(c)}
+%           }
+% \gridline{\fig{RS_Oph.pdf}{0.3\textwidth}{(d)}
+%           \fig{U_Sco.pdf}{0.3\textwidth}{(e)}
+%           }
+% \gridline{\fig{KT_Eri.pdf}{0.3\textwidth}{(f)}}
+% \caption{Inverted pyramid figure of six individual files. The nova are
+% (a) V2491 Cyg, (b) HV Cet, (c) LMC 2009, (d) RS Oph, (e) U Sco, and (f) 
+% KT Eri. These individual figures are taken from \citet{2011ApJS..197...31S}.
+% \label{fig:pyramid}}
+% \end{figure*}
+
+
+
+%% For this sample we use BibTeX plus aasjournals.bst to generate the
+%% the bibliography. The sample63.bib file was populated from ADS. To
+%% get the citations to show in the compiled file do the following:
+%%
+%% pdflatex sample63.tex
+%% bibtext sample63
+%% pdflatex sample63.tex
+%% pdflatex sample63.tex
+
+\bibliography{sample63}{}
+\bibliographystyle{aasjournal}
+
+%% This command is needed to show the entire author+affiliation list when
+%% the collaboration and author truncation commands are used.  It has to
+%% go at the end of the manuscript.
+%\allauthors
+
+%% Include this line if you are using the \added, \replaced, \deleted
+%% commands to see a summary list of all changes at the end of the article.
+%\listofchanges
+
+\end{document}
+
+% End of file `sample63.tex'.
