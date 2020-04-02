@@ -102,12 +102,7 @@ class CenterOfMass:
         while (CHANGE > delta):
             # select all particles within the reduced radius (starting from original x,y,z, m)
             # write your own code below (hints, use np.where)
-            
-            if not np.any(RNEW < RMAX):
-                print(f'\nThere are no particles within RMAX {RMAX:.3f}')
-                print(f'RNEW: Min={RNEW.min():.2f}\tMax={RNEW.max():.2f}\tRMEAN={RNEW.mean():.2f}')
-                raise ValueError()
-            
+                        
             index2 = np.where( RNEW < RMAX)
             x2 = self.x[index2]
             y2 = self.y[index2]
@@ -147,8 +142,8 @@ class CenterOfMass:
             ZCOM = ZCOM2
             RCOM = RCOM2
 
-        # create a vector to store the COM position                                                                                                                                                       
-        COMP = XCOM, YCOM, ZCOM
+            # create a vector to store the COM position                                                                                                                                                       
+            COMP = XCOM, YCOM, ZCOM
 
         # set the correct units usint astropy and round all values
         # and then return the COM positon vector
@@ -174,13 +169,7 @@ class CenterOfMass:
         # determine the index for those particles within the max radius
         # write your own code below
         indexV = RV < RVMAX
-        
-        if not np.any(indexV):
-            print(f'\nThere are no particles within RVMAX {RVMAX:.3f}')
-            print(f'RV: Min={RV.min():.2f}\tMax={RV.max():.2f}\tRMEAN={RV.mean():.2f}')
-            raise ValueError()
-
-        
+                
         # determine the velocity and mass of those particles within the mas radius
         # write your own code below
         vxnew = self.vx[indexV]

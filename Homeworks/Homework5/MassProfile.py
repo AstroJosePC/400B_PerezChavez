@@ -31,6 +31,15 @@ class MassProfile:
         self.gname = galaxy[-3:].upper()
         self.snap = snap
         
+        # read in the file
+        self.time, self.total, self.data = Read(self.filename)
+
+        # store the mass, positions, velocities of all particles                                
+        self.m = self.data['m']
+        self.x = self.data['x']*u.kpc
+        self.y = self.data['y']*u.kpc
+        self.z = self.data['z']*u.kpc
+    
     def MassEnclosed(self, ptype, r, delta=0.1):
         """
         compute the mass enclosed within a given radius of the COM 
@@ -41,27 +50,35 @@ class MassProfile:
         :param delta: tolerance for COM iterative estimation
         :return:
         """
+        # Determine center of mass using disk particles
         # Get CenterOfMass object, and compute its position
-        com = CenterOfMass(self.filename, ptype)
-        comp = com.COM_P(delta).value
+        com = CenterOfMass(self.filename, 2)
+        comp = com.COM_P(delta)
+        
+        # create an array to store indexes of particles of desired Ptype                                                
+        index = np.where(self.data['type'] == ptype)
         
         # Make sure input radii is an array, could be a list or scalar
-        r_array = np.atleast_1d(r)
+        r_array = np.atleast_1d(r) * u.kpc
         
-        # Switch particle coords to COM reference frame
-        xNew = com.x - comp[0]
-        yNew = com.y - comp[1]
-        zNew = com.z - comp[2]
+        # Switch coords to COM reference frame of the `ptype` particles
+        xNew = self.x[index] - comp[0]
+        yNew = self.y[index] - comp[1]
+        zNew = self.z[index] - comp[2]
+        
         # Calculate each particle's radial distance to COM
         rNew = np.sqrt(xNew**2 + yNew**2 + zNew**2)
         
+        # store mass of particles of a given ptype
+        mG = self.m[index]
+
         # Initialize array to store enclosed masses; same shape as radii array
         rMasses = np.zeros(r_array.size)
         
         # Loop over each radius
         for i in range(r_array.size):
             # select those within current radius r[i], and sum masses
-            rMasses[i] = com.m[rNew < r_array[i]].sum()
+            rMasses[i] = mG[rNew < r_array[i]].sum()
         
         return rMasses * 1e10 * u.Msun
 
