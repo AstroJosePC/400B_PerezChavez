@@ -59,7 +59,7 @@ class CenterOfMass:
         return Xcom, Ycom, Zcom
     
     
-    def COM_P(self, delta):
+    def COM_P(self, delta, VolDec=2.0):
         # Function to specifically return the center of mass position and velocity                                         
         # input:                                                                                                           
         #        particle type (1,2,3)                                                                                     
@@ -89,7 +89,7 @@ class CenterOfMass:
         
         # find the max 3D distance of all particles from the guessed COM                                               
         # will re-start at half that radius (reduced radius)                                                           
-        RMAX = max(RNEW)/2.0
+        RMAX = max(RNEW)/VolDec
 
         # pick an initial value for the change in COM position                                                      
         # between the first guess above and the new one computed from half that volume
@@ -102,6 +102,11 @@ class CenterOfMass:
         while (CHANGE > delta):
             # select all particles within the reduced radius (starting from original x,y,z, m)
             # write your own code below (hints, use np.where)
+            
+            if not np.any(RNEW < RMAX):
+                print(f'\nThere are no particles within RMAX {RMAX:.3f}')
+                print(f'RNEW: Min={RNEW.min():.2f}\tMax={RNEW.max():.2f}\tRMEAN={RNEW.mean():.2f}')
+                raise ValueError()
             
             index2 = np.where( RNEW < RMAX)
             x2 = self.x[index2]
@@ -119,12 +124,13 @@ class CenterOfMass:
             RCOM2 = np.sqrt( XCOM2**2 + YCOM2**2 + ZCOM2**2 )
             # determine the difference between the previous center of mass position                                    
             # and the new one.
-            CHANGE = np.abs(RCOM - RCOM2)
-            # uncomment the following line if you wnat to check this                                                                                               
+            CHANGE = np.abs(RCOM - RCOM2)                                                                                  
+
             # Before loop continues, reset : RMAX, particle separations and COM                                        
 
             # reduce the volume by a factor of 2 again                                                                 
-            RMAX = RMAX/2.0
+            RMAX = RMAX/VolDec
+            # check this.                                                                                              
 
             # Change the frame of reference to the newly computed COM.                                                 
             # subtract the new COM
@@ -133,16 +139,12 @@ class CenterOfMass:
             yNew = self.y - YCOM2
             zNew = self.z - ZCOM2
             
-            # xNew = xNew - XCOM2
-            # yNew = yNew - YCOM2
-            # zNew = zNew - ZCOM2
             RNEW = np.sqrt(xNew**2 + yNew**2 + zNew**2)
 
             # set the center of mass positions to the refined values                                                   
             XCOM = XCOM2
             YCOM = YCOM2
             ZCOM = ZCOM2
-            # RCOM = np.sqrt( XCOM**2 + YCOM**2 + ZCOM**2 )
             RCOM = RCOM2
 
         # create a vector to store the COM position                                                                                                                                                       
@@ -172,7 +174,13 @@ class CenterOfMass:
         # determine the index for those particles within the max radius
         # write your own code below
         indexV = RV < RVMAX
-      
+        
+        if not np.any(indexV):
+            print(f'\nThere are no particles within RVMAX {RVMAX:.3f}')
+            print(f'RV: Min={RV.min():.2f}\tMax={RV.max():.2f}\tRMEAN={RV.mean():.2f}')
+            raise ValueError()
+
+        
         # determine the velocity and mass of those particles within the mas radius
         # write your own code below
         vxnew = self.vx[indexV]
