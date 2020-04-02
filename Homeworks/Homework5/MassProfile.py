@@ -109,15 +109,15 @@ class MassProfile:
         Mass = MassEnclosed(ptype, r, delta)
         return np.sqrt(G * Mass / r).to(u.km/u.s)
 
-    def CircularVelocityTotal(r):
+    def CircularVelocityTotal(self, r, delta=0.1):
         """
         Calculate rotational velocity profile assuming spherical symmetry
         
         :param r: 
         :return:
         """
-        Mass = MassEnclosedTotal(r, delta)
-        return np.sqrt(G * Mass / r).to(u.km/u.s)
+        Mass = self.MassEnclosedTotal(r, delta)
+        return np.sqrt(G * Mass / r / u.kpc).to(u.km/u.s)
 
 
 def HernquistM(r, a=60, Mhalo=1.97):
