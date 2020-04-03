@@ -33,20 +33,23 @@ def GetParticleType(ptype):
     return ptype
 
 
-def GalaxyMass(filename, ptype):
+def GalaxyMass(input_file, ptype):
     """
     Read in MK data file, and return the total mass of any 
     desired galaxy component: Halo (1), Disk (2), Bulge (3)
     
     `ptype` can be integer or string.
 
-    :param filename: file path to data file
+    :param filename: file path to data file (string) OR data array with headers
     :param ptye: particle type; halo (1), disk (2), or bulge (3) 
     :return: Total component mass in 10^12 Msun
     
     """
     # Read data in
-    time, total, data = Read(filename)
+    if isinstance(input_file, str):
+        data = Read(input_file)[2]
+    else:
+        data = input_file
     
     # Mask of component mass using parsed ptype
     mask = data['type'] == GetParticleType(ptype)
