@@ -1,5 +1,6 @@
 # Added by me, ignore sample data for testing purposes
 /SampleData
+*VLowRes/
 
 # Editors
 .vscode/
