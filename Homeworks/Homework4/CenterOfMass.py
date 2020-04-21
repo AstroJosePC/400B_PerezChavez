@@ -23,14 +23,20 @@ class CenterOfMass:
 # and simulation snapshot
     
     
-    def __init__(self, filename, ptype):
+    def __init__(self, filename, ptype, total=None, time=None):
         # Initialize the instance of this Class with the following properties:
     
         # Read data in the given file using Read
-        self.time, self.total, self.data = Read(filename)                                                                                            
+        if isinstance(filename, str):
+            self.time, self.total, self.data = Read(filename)
+        else:
+            self.time, self.total, self.data = time, total, filename
 
         # Create an array to store indexes of particles of desired Ptype
         self.index = np.where(self.data['type'] == ptype)
+        
+        # Create a variable to hold the rmax distance to center of mass, where most mass is held
+        self.rmax = None
 
         # store the mass, positions, velocities of only the particles of the given type
         # the following only gives the example of storing the mass
@@ -86,11 +92,8 @@ class CenterOfMass:
         yNew = self.y - YCOM
         zNew = self.z - ZCOM
         RNEW = np.sqrt(xNew**2 + yNew**2 + zNew**2)
+        self.rmax = RNEW.max()
         
-        # find the max 3D distance of all particles from the guessed COM                                               
-        # will re-start at half that radius (reduced radius)                                                           
-        RMAX = max(RNEW)/VolDec
-
         # pick an initial value for the change in COM position                                                      
         # between the first guess above and the new one computed from half that volume
         # it should be larger than the input tolerance (delta) initially
@@ -100,10 +103,13 @@ class CenterOfMass:
         # delta is the tolerance for the difference in the old COM and the new one.    
         
         while (CHANGE > delta):
+            # find the max 3D distance of all particles from the guessed COM                                               
+            # will re-start at half that radius (reduced radius)                                                           
+            self.rmax = self.rmax/VolDec
+            
             # select all particles within the reduced radius (starting from original x,y,z, m)
             # write your own code below (hints, use np.where)
-                        
-            index2 = np.where( RNEW < RMAX)
+            index2 = np.where( RNEW < self.rmax)
             x2 = self.x[index2]
             y2 = self.y[index2]
             z2 = self.z[index2]
@@ -120,12 +126,6 @@ class CenterOfMass:
             # determine the difference between the previous center of mass position                                    
             # and the new one.
             CHANGE = np.abs(RCOM - RCOM2)                                                                                  
-
-            # Before loop continues, reset : RMAX, particle separations and COM                                        
-
-            # reduce the volume by a factor of 2 again                                                                 
-            RMAX = RMAX/VolDec
-            # check this.                                                                                              
 
             # Change the frame of reference to the newly computed COM.                                                 
             # subtract the new COM
